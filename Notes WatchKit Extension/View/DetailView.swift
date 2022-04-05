@@ -12,20 +12,14 @@ struct DetailView: View {
     let count: Int
     let index: Int
     
+    @State private var isCreditsPresented: Bool = false
+    @State private var isSettingsPresented: Bool = false
+    
     var body: some View {
         VStack(alignment: .center, spacing: 3) {
             //header
+           HeaderView(title: "")
             
-            HStack {
-                Capsule()
-                    .frame(height: 1)
-                
-                Image(systemName: "note.text")
-                
-                Capsule()
-                    .frame(height: 1)
-            }
-            .foregroundColor(.accentColor)
             //content
             Spacer()
             
@@ -37,12 +31,19 @@ struct DetailView: View {
             }
             
             Spacer()
-            //footer
             
+            //footer
             HStack(alignment: .center) {
                 
                 Image(systemName: "gear")
-                    .imageScale(.large)
+                  .imageScale(.large)
+                  .onTapGesture {
+                    isSettingsPresented.toggle()
+                  }
+                  .sheet(isPresented: $isSettingsPresented, content: {
+                    SettingsView()
+                  })
+                
                 
                 Spacer()
                 
@@ -50,10 +51,15 @@ struct DetailView: View {
                 Spacer()
                 
                 Image(systemName: "info.circle")
-                    .imageScale(.large)
+                  .imageScale(.large)
+                  .onTapGesture {
+                    isCreditsPresented.toggle()
+                  }
+                  .sheet(isPresented: $isCreditsPresented, content: {
+                    CreditsView()
+                  })
             }//: HSTACK
             .foregroundColor(.secondary)
-            
         }//: VSTACK
         .padding(3)
     }
